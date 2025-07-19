@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "2492100c-fd97-48d1-80ab-04c1e89af765",
+		"name": "HRMS_Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39399712"
+	},
+	"item": [
+		{
+			"name": "Week 1",
+			"item": [
+				{
+					"name": "roles/get-roles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMiIsImV4cCI6MTc1MjY2ODA4MH0.KIkkLj3WaTeMvpNdMXr_Hdkdn6tKShpS9gOP5iMCYu4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/roles/get-roles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"roles",
+								"get-roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users/get-profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImV4cCI6MTc1MjY3MDYzNH0.ElsofKsAuEhZMJ0PfiHYqWFVXGtREzHIj6eL0dyd714",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/users/get-profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"get-profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
