@@ -17,4 +17,4 @@ app.include_router(auth_router)
 
 @app.get("/")
 def read_root():
-    return {"message": "HRMS Backend is running successfully at localhost:8000"}
+    return {"message": "HRMS Backend is running successfully at localhost:8001"}

@@ -31,7 +31,7 @@
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8001",
 							"path": [
 								"roles",
 								"get-roles"
@@ -91,7 +91,7 @@
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8001",
 							"path": [
 								"users",
 								"get-profile"
