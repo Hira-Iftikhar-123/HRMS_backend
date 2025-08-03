@@ -21,17 +21,17 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMiIsImV4cCI6MTc1MjY2ODA4MH0.KIkkLj3WaTeMvpNdMXr_Hdkdn6tKShpS9gOP5iMCYu4",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlckBleGFtcGxlLmNvbSIsInJvbGUiOiJDYW5kaWRhdGUiLCJleHAiOjE3NTQyNDA4MTh9.59ES1bZ914OIJCJKLSZPylONZyVGenuc4w2UFZd7nLg",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8000/roles/get-roles",
+							"raw": "http://localhost:8001/roles/get-roles",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8001",
 							"path": [
 								"roles",
 								"get-roles"
@@ -50,7 +50,7 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "testuser",
+									"value": "testuser@example.com",
 									"type": "text"
 								},
 								{
@@ -61,12 +61,12 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8000/login",
+							"raw": "http://localhost:8001/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8001",
 							"path": [
 								"login"
 							]
@@ -81,19 +81,19 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImV4cCI6MTc1MjY3MDYzNH0.ElsofKsAuEhZMJ0PfiHYqWFVXGtREzHIj6eL0dyd714",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlckBleGFtcGxlLmNvbSIsInJvbGUiOiJDYW5kaWRhdGUiLCJleHAiOjE3NTQyNDA4MTh9.59ES1bZ914OIJCJKLSZPylONZyVGenuc4w2UFZd7nLg",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8000/users/get-profile",
+							"raw": "http://localhost:8001/user/get-profile",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8000",
+							"port": "8001",
 							"path": [
-								"users",
+								"user",
 								"get-profile"
 							]
 						}
@@ -132,12 +132,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8001/login",
-							"protocol": "http",
+							"raw": "{{baseURL}}/login",
 							"host": [
-								"localhost"
+								"{{baseURL}}"
 							],
-							"port": "8001",
 							"path": [
 								"login"
 							]
@@ -162,12 +160,10 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8001/task/my-tasks/2",
-							"protocol": "http",
+							"raw": "{{baseURL}}/task/my-tasks/2",
 							"host": [
-								"localhost"
+								"{{baseURL}}"
 							],
-							"port": "8001",
 							"path": [
 								"task",
 								"my-tasks",
@@ -206,12 +202,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8001/leave/update-status?leave_id=1",
-							"protocol": "http",
+							"raw": "{{baseURL}}/leave/update-status?leave_id=1",
 							"host": [
-								"localhost"
+								"{{baseURL}}"
 							],
-							"port": "8001",
 							"path": [
 								"leave",
 								"update-status"
@@ -238,12 +232,10 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8001/leave/all",
-							"protocol": "http",
+							"raw": "{{baseURL}}/leave/all",
 							"host": [
-								"localhost"
+								"{{baseURL}}"
 							],
-							"port": "8001",
 							"path": [
 								"leave",
 								"all"
@@ -262,13 +254,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc1MzQyMjc0MH0.Cxi40Ztakj9ZuudhHjeaLeud3VQnPRi_SFShumImP9M",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NDE1ODcyMH0.2no6K3un6sD8pFqHn1ue6C3zAklTiDDdWOrc0rbqLc4",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"project_id\": 1,\r\n  \"title\": \"Deploy the backend\",\r\n  \"description\": \"Deploy the API endpoints\",\r\n  \"status\": \"pending\",\r\n  \"assigned_to_id\": 1,\r\n  \"due_date\": \"2025-08-01T07:00:00Z\"\r\n}",
+							"raw": "{\r\n  \"project_id\": 1,\r\n  \"title\": \"Deploy backend services\",\r\n  \"description\": \"Deploy the API endpoints\",\r\n  \"status\": \"pending\",\r\n  \"assigned_to_id\": 3,\r\n  \"due_date\": \"2025-08-01T07:00:00Z\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -314,12 +306,10 @@
 							"raw": "    { \"status\": \"completed\" }"
 						},
 						"url": {
-							"raw": "http://localhost:8001/task/task-status/3",
-							"protocol": "http",
+							"raw": "{{baseURL}}/task/task-status/3",
 							"host": [
-								"localhost"
+								"{{baseURL}}"
 							],
-							"port": "8001",
 							"path": [
 								"task",
 								"task-status",
@@ -358,12 +348,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8001/leave/update-status?leave_id=1",
-							"protocol": "http",
+							"raw": "{{baseURL}}/leave/update-status?leave_id=1",
 							"host": [
-								"localhost"
+								"{{baseURL}}"
 							],
-							"port": "8001",
 							"path": [
 								"leave",
 								"update-status"
@@ -402,12 +390,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8001/user/register",
-							"protocol": "http",
+							"raw": "{{baseURL}}/user/register",
 							"host": [
-								"localhost"
+								"{{baseURL}}"
 							],
-							"port": "8001",
 							"path": [
 								"user",
 								"register"
@@ -440,12 +426,10 @@
 							"raw": "{\r\n  \"email\": \"candidate@example.com\",\r\n  \"full_name\": \"New candidate\",\r\n  \"phone\": \"1234567890\",\r\n  \"password\": \"12345\",\r\n  \"role_id\": 5\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:8001/user/add-user",
-							"protocol": "http",
+							"raw": "{{baseURL}}/user/add-user",
 							"host": [
-								"localhost"
+								"{{baseURL}}"
 							],
-							"port": "8001",
 							"path": [
 								"user",
 								"add-user"
@@ -455,6 +439,361 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Week 3",
+			"item": [
+				{
+					"name": "/login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJDRU9AZXhhbXBsZS5jb20iLCJyb2xlIjoiQ0VPIiwiZXhwIjoxNzU0MTU1MzUwfQ.GYbnbPep6wjdOMUZW3RDe2DWPrTz7-FKLEK-A8i9884",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "CEO@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/dashboard/ceo-metrics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJDRU9AZXhhbXBsZS5jb20iLCJyb2xlIjoiQ0VPIiwiZXhwIjoxNzU0MTU1MzUwfQ.GYbnbPep6wjdOMUZW3RDe2DWPrTz7-FKLEK-A8i9884",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/dashboard/ceo-metrics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"dashboard",
+								"ceo-metrics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/dashboard/task-status-summary",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJDRU9AZXhhbXBsZS5jb20iLCJyb2xlIjoiQ0VPIiwiZXhwIjoxNzU0MTU1MzUwfQ.GYbnbPep6wjdOMUZW3RDe2DWPrTz7-FKLEK-A8i9884",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/dashboard/task-status-summary",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"dashboard",
+								"task-status-summary"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/create-department",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJDRU9AZXhhbXBsZS5jb20iLCJyb2xlIjoiQ0VPIiwiZXhwIjoxNzU0MTU1ODk0fQ.0-AgSUaX3DoN11S7Hs1IHlw7ZRdtjG6almyq7c6GQo0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Electrical Engineering\",\r\n    \"description\": \"EE Department\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/departments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"departments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/get-all-depts",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJDRU9AZXhhbXBsZS5jb20iLCJyb2xlIjoiQ0VPIiwiZXhwIjoxNzU0MTU1ODk0fQ.0-AgSUaX3DoN11S7Hs1IHlw7ZRdtjG6almyq7c6GQo0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8001/departments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"departments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/get-specific-dept",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJDRU9AZXhhbXBsZS5jb20iLCJyb2xlIjoiQ0VPIiwiZXhwIjoxNzU0MTU1ODk0fQ.0-AgSUaX3DoN11S7Hs1IHlw7ZRdtjG6almyq7c6GQo0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8001/departments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"departments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/update-department",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJDRU9AZXhhbXBsZS5jb20iLCJyb2xlIjoiQ0VPIiwiZXhwIjoxNzU0MTU1ODk0fQ.0-AgSUaX3DoN11S7Hs1IHlw7ZRdtjG6almyq7c6GQo0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Updated Software Engineering Department\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/departments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"departments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/delete-dept",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJDRU9AZXhhbXBsZS5jb20iLCJyb2xlIjoiQ0VPIiwiZXhwIjoxNzU0MTU1ODk0fQ.0-AgSUaX3DoN11S7Hs1IHlw7ZRdtjG6almyq7c6GQo0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8001/departments/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"departments",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/export/leaves-csv",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJDRU9AZXhhbXBsZS5jb20iLCJyb2xlIjoiQ0VPIiwiZXhwIjoxNzU0MTU1ODk0fQ.0-AgSUaX3DoN11S7Hs1IHlw7ZRdtjG6almyq7c6GQo0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8001/export/leaves-csv",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"export",
+								"leaves-csv"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/export/users-csv",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJDRU9AZXhhbXBsZS5jb20iLCJyb2xlIjoiQ0VPIiwiZXhwIjoxNzU0MTU1ODk0fQ.0-AgSUaX3DoN11S7Hs1IHlw7ZRdtjG6almyq7c6GQo0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8001/export/users-csv",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"export",
+								"users-csv"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/task/task-progress/task_id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NDE1OTYzN30.OReoTmSBQBXlZIDDz-F0CqVKnX8ZdJWHM6Y6Dwnq9jE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"progress\": 80\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/task/task-progress/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"task",
+								"task-progress",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:8001",
+			"type": "default"
 		}
 	]
 }
