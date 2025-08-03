@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 
 class Token(BaseModel):
-    class Config:
-        from_attributes = True
+    model_config = {
+        "from_attributes": True
+    }
     access_token: str
     token_type: str 
+    role: str

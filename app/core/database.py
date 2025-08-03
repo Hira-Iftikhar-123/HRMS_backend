@@ -4,9 +4,12 @@ import app.models.role  # noqa: F401
 import app.models.attendance  # noqa: F401
 import app.models.project  # noqa: F401
 import app.models.task  # noqa: F401
+import app.models.leave  # noqa: F401
+import app.models.department  # noqa: F401
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 import asyncio
+import logging
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -16,9 +19,16 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_async_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
 
+async def get_db():
+    async with SessionLocal() as db:
+        yield db
+
 async def create_tables():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+    logger.info("Creating tables...")
     asyncio.run(create_tables())

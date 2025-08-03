@@ -1,7 +1,8 @@
 from pydantic import BaseModel
 
 class RoleResponse(BaseModel):
-    class Config:
-        from_attributes = True
+    model_config = {
+        "from_attributes": True
+    }
     id: int
     name: str 

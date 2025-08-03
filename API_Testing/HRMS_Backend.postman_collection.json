@@ -31,7 +31,7 @@
 							"host": [
 								"localhost"
 							],
-							"port": "8001",
+							"port": "8000",
 							"path": [
 								"roles",
 								"get-roles"
@@ -91,10 +91,364 @@
 							"host": [
 								"localhost"
 							],
-							"port": "8001",
+							"port": "8000",
 							"path": [
 								"users",
 								"get-profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Week 2",
+			"item": [
+				{
+					"name": "/login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "admin@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8001/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/task/assign-task",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc1MzQyMTMxMX0.PoesNViuvrFr_0JpISXMjdA1jWbwqyy-f5JVRwl85YE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8001/task/my-tasks/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"task",
+								"my-tasks",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/leave/update-status",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc1MzQxOTkyMX0.OWhNqm2AuIZftbnIh6h6NUhmUDMGavtHCPzPSyiaznc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"status\": \"approved\" }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/leave/update-status?leave_id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"leave",
+								"update-status"
+							],
+							"query": [
+								{
+									"key": "leave_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/leave/all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc1MzQxOTkyMX0.OWhNqm2AuIZftbnIh6h6NUhmUDMGavtHCPzPSyiaznc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8001/leave/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"leave",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/task/assign-task",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc1MzQyMjc0MH0.Cxi40Ztakj9ZuudhHjeaLeud3VQnPRi_SFShumImP9M",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"project_id\": 1,\r\n  \"title\": \"Deploy the backend\",\r\n  \"description\": \"Deploy the API endpoints\",\r\n  \"status\": \"pending\",\r\n  \"assigned_to_id\": 1,\r\n  \"due_date\": \"2025-08-01T07:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/task/assign-task",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"task",
+								"assign-task"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/task-status/{task_id}",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc1MzU1ODA0N30.rwK4AN3mZCbh20JhK3b0N5uSAXNw_bKUYLTPl2KVU8I",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    { \"status\": \"completed\" }"
+						},
+						"url": {
+							"raw": "http://localhost:8001/task/task-status/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"task",
+								"task-status",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/leave/update-status",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc1MzU1ODQzMX0.JG_fPMJd5ojetuw3j46va9pjLR2R2ztncYHXyExlNhQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"status\": \"approved\" }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/leave/update-status?leave_id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"leave",
+								"update-status"
+							],
+							"query": [
+								{
+									"key": "leave_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@example.com\",\r\n  \"full_name\": \"Admin User\",\r\n  \"phone\": \"1234567890\",\r\n  \"password\": \"12345\",\r\n  \"role_name\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/add-user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc1MzU2MTYwNX0.DXWzWolo4v0ER6Mq6XNUrSG0z096GGP9EIPVPICZxtA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"candidate@example.com\",\r\n  \"full_name\": \"New candidate\",\r\n  \"phone\": \"1234567890\",\r\n  \"password\": \"12345\",\r\n  \"role_id\": 5\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8001/user/add-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"user",
+								"add-user"
 							]
 						}
 					},
