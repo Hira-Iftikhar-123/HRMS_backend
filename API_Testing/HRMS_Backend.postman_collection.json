@@ -787,6 +787,230 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Week 4",
+			"item": [
+				{
+					"name": "/assign-project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NDc3ODM0NX0.mjnYAm43rLPRFTl1gFM9CkZtzbFzPUsP4yBSGHiP3Ns",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"intern_id\": 16, \"project_id\": 3 }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/projects/assign_project",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"projects",
+								"assign_project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "evaluation/evaluate",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NDc3ODM0NX0.mjnYAm43rLPRFTl1gFM9CkZtzbFzPUsP4yBSGHiP3Ns",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"intern_id\": 16, \"project_id\": 3, \"stars\": 4, \"comment\": \"Good work\" }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/evaluation/evaluate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"evaluation",
+								"evaluate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch-eval-history/evaluation",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NDc3ODM0NX0.mjnYAm43rLPRFTl1gFM9CkZtzbFzPUsP4yBSGHiP3Ns",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/evaluation/evaluations/16",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"evaluation",
+								"evaluations",
+								"16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": " leave/update-status?leave_id=12",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NDc3OTgxMH0.YvM_oolhLspmbds8Q6nQh2wnVFgg7lHLNhmFiZu6JpE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\":\"approved\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/leave/update-status?leave_id=3&",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"leave",
+								"update-status"
+							],
+							"query": [
+								{
+									"key": "leave_id",
+									"value": "3"
+								},
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/departments/map_hr",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NDc3OTgxMH0.YvM_oolhLspmbds8Q6nQh2wnVFgg7lHLNhmFiZu6JpE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"hr_id\": 7, \"department_id\": 3 }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/departments/map_hr",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"departments",
+								"map_hr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "departments/hr_by_department/3",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NDc3OTgxMH0.YvM_oolhLspmbds8Q6nQh2wnVFgg7lHLNhmFiZu6JpE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/departments/hr_by_department/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"departments",
+								"hr_by_department",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [

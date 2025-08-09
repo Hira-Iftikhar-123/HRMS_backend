@@ -6,7 +6,14 @@ from app.models.department import Department
 from app.schemas.department import DepartmentCreate, DepartmentUpdate, Department as DepartmentSchema
 from app.core.auth import get_current_user
 from app.models.user import User
+from app.models.hr_department_map import HRDepartmentMap
+from app.schemas.hr_department_map import (
+    HRDepartmentMapCreate,
+    HRDepartmentMapResponse,
+    HRUserResponse,
+)
 from typing import List
+from sqlalchemy.orm import selectinload
 
 router = APIRouter(prefix="/departments", tags=["Departments"])
 
@@ -96,3 +103,53 @@ async def delete_department(
     await db.delete(db_department)
     await db.commit()
     return {"message": "Department deleted successfully"} 
+
+
+@router.post("/map_hr", response_model=HRDepartmentMapResponse)
+async def map_hr_to_department(
+    mapping: HRDepartmentMapCreate,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    # Only admin can map HRs to departments
+    if not (current_user.role and current_user.role.name and current_user.role.name.lower() == "admin"):
+        raise HTTPException(status_code=403, detail="Only admin can map HR to department")
+
+    # Validate HR exists and is HR (eager-load role to avoid async lazy-load)
+    result = await db.execute(
+        select(User).options(selectinload(User.role)).where(User.id == mapping.hr_id)
+    )
+    hr_user = result.scalar_one_or_none()
+    if not hr_user or not hr_user.role or hr_user.role.name.lower() != "hr":
+        raise HTTPException(status_code=400, detail="Provided hr_id is not an HR user")
+
+    # Validate department exists
+    result = await db.execute(select(Department).where(Department.id == mapping.department_id))
+    dept = result.scalar_one_or_none()
+    if not dept:
+        raise HTTPException(status_code=404, detail="Department not found")
+
+    record = HRDepartmentMap(hr_id=mapping.hr_id, department_id=mapping.department_id)
+    db.add(record)
+    try:
+        await db.commit()
+    except Exception:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail="HR already mapped to this department")
+    await db.refresh(record)
+    return record
+
+
+@router.get("/hr_by_department/{department_id}", response_model=List[HRUserResponse])
+async def list_hrs_by_department(
+    department_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    # Any authenticated user can view
+    result = await db.execute(
+        select(User).join(HRDepartmentMap, HRDepartmentMap.hr_id == User.id)
+        .where(HRDepartmentMap.department_id == department_id)
+    )
+    hrs = result.scalars().all()
+    return [HRUserResponse(id=u.id, email=u.email, full_name=u.full_name) for u in hrs]

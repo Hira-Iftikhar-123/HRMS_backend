@@ -6,3 +6,6 @@ from .task import Task
 from .leave import Leave
 from .attendance import Attendance
 from .department import Department 
+from .project_assignment import ProjectAssignment
+from .evaluation import Evaluation
+from .hr_department_map import HRDepartmentMap

@@ -10,6 +10,7 @@ class UserCreate(UserBase):
     password: str
     role_id: Optional[int] = None  # For admin use 
     role_name: Optional[str] = None  # For new candidate registration (dropdown) 
+    fcm_token: Optional[str] = None
 
 class UserResponse(UserBase):
     id: int
