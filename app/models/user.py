@@ -12,3 +12,5 @@ class User(Base):
     role_id = Column(Integer, ForeignKey("roles.id"))
     role = relationship("Role")   
     leaves = relationship("Leave", back_populates="user")
+    # Token for push notifications on firebase
+    fcm_token = Column(String, nullable=True)

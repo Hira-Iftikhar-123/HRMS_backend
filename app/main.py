@@ -9,6 +9,7 @@ from app.routers.leave import router as leave_router
 from app.routers.dashboard import router as dashboard_router
 from app.routers.department import router as department_router
 from app.routers.export import router as export_router
+from app.routers.evaluation import router as evaluation_router
 
 app = FastAPI()
 
@@ -22,6 +23,7 @@ app.include_router(leave_router)
 app.include_router(dashboard_router)
 app.include_router(department_router)
 app.include_router(export_router)
+app.include_router(evaluation_router)
 
 @app.get("/")
 def read_root():

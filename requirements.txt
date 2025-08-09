@@ -6,3 +6,5 @@ python-jose[cryptography]
 passlib[bcrypt]
 python-dotenv
 psycopg2-binary
+httpx
+firebase-admin

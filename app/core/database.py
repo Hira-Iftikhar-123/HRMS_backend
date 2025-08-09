@@ -1,11 +1,14 @@
 from app.core.base import Base
-import app.models.user  # noqa: F401
-import app.models.role  # noqa: F401
-import app.models.attendance  # noqa: F401
-import app.models.project  # noqa: F401
-import app.models.task  # noqa: F401
-import app.models.leave  # noqa: F401
-import app.models.department  # noqa: F401
+import app.models.user  
+import app.models.role  
+import app.models.attendance  
+import app.models.project  
+import app.models.task  
+import app.models.leave  
+import app.models.department  
+import app.models.project_assignment  
+import app.models.evaluation  
+import app.models.hr_department_map  
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 import asyncio
@@ -30,5 +33,3 @@ async def create_tables():
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
-    logger.info("Creating tables...")
-    asyncio.run(create_tables())

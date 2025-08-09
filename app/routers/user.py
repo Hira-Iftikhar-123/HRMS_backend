@@ -8,8 +8,12 @@ from app.models.user import User
 from app.models.role import Role
 from app.schemas.user import UserCreate, UserResponse
 from app.core.auth import get_password_hash, require_roles, get_current_user
+from pydantic import BaseModel
 
 router = APIRouter(prefix="/user", tags=["User"])
+
+class TokenUpdate(BaseModel):
+    fcm_token: str
 
 @router.post("/register", response_model=UserResponse)
 async def register_candidate(user_in: UserCreate, db: AsyncSession = Depends(get_db)):
@@ -25,7 +29,8 @@ async def register_candidate(user_in: UserCreate, db: AsyncSession = Depends(get
             full_name=user_in.full_name,
             phone=user_in.phone,
             hashed_password=get_password_hash(user_in.password),
-            role_id=role.id
+            role_id=role.id,
+            fcm_token=user_in.fcm_token,
         )
         db.add(user)
         await db.commit()
@@ -66,7 +71,8 @@ async def add_user(user_in: UserCreate, db: AsyncSession = Depends(get_db), user
             full_name=user_in.full_name,
             phone=user_in.phone,
             hashed_password=get_password_hash(user_in.password),
-            role_id=user_in.role_id
+            role_id=user_in.role_id,
+            fcm_token=user_in.fcm_token,
         )
         db.add(user)
         await db.commit()
@@ -116,3 +122,18 @@ async def get_user_profile(db: AsyncSession = Depends(get_db), current_user=Depe
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+    
+@router.post("/update-token")
+async def update_fcm_token(
+    token_data: TokenUpdate,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    try:
+        current_user.fcm_token = token_data.fcm_token
+        db.add(current_user)
+        await db.commit()
+        return {"message": "FCM token updated successfully"}
+    except Exception:
+        await db.rollback()
+        raise HTTPException(status_code=500, detail="Failed to update FCM token")
