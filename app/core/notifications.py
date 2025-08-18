@@ -65,3 +65,30 @@ async def send_firebase_notification(
         return {"sent": 0}
 
 
+async def create_system_notification(
+    db,
+    user_id: int,
+    title: str,
+    message: str,
+    notification_type: str = "system"
+) -> dict:
+    """ Create a system notification in the database. This function should be called from within a database transaction. """
+    try:
+        from app.models.notification import Notification
+        
+        notification = Notification(
+            user_id=user_id,
+            title=title,
+            message=message,
+            notification_type=notification_type
+        )
+        db.add(notification)
+        await db.flush()  # Get the ID without committing
+        
+        logger.info(f"System notification created for user {user_id}: {title}")
+        return {"success": True, "notification_id": notification.id}
+    except Exception as e:
+        logger.exception(f"Failed to create system notification: {e}")
+        return {"success": False, "error": str(e)}
+
+

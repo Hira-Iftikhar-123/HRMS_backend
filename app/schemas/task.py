@@ -6,7 +6,7 @@ class TaskBase(BaseModel):
     project_id: Optional[int] = None
     title: str
     description: Optional[str] = None
-    status: Optional[str] = None
+    status: Optional[str] = None # pending, approved, rejected
     assigned_to_id: int
     progress: Optional[int] = 0
     due_date: Optional[datetime] = None  

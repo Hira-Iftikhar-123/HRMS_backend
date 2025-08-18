@@ -87,3 +87,34 @@ async def update_task_progress(task_id: int, progress_update: TaskProgressUpdate
     await db.refresh(task)
     logger.info(f"Task ID {task.id} progress updated to {task.progress}% by user ID {user.id}")
     return task 
+
+@router.patch("/update_task_status", response_model=TaskResponse)
+async def update_task_status(intern_id: int, task_id: int, status: str, db: AsyncSession = Depends(get_db), user=Depends(get_current_user)):
+
+    valid_statuses = ["pending", "approved", "rejected"]
+    if status not in valid_statuses:
+        raise HTTPException(status_code=400, detail=f"Invalid status. Must be one of: {', '.join(valid_statuses)}")
+    
+    # Check if user has permission (Admin, Manager, or the assigned intern) 
+    if user.role.name not in ["Admin", "Manager"] and user.id != intern_id:
+        raise HTTPException(status_code=403, detail="Not authorized to update this task status")
+    
+    result = await db.execute(select(Task).filter(Task.id == task_id))
+    task = result.scalar_one_or_none()
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    
+    if task.assigned_to_id != intern_id:
+        raise HTTPException(status_code=400, detail="Task is not assigned to the specified intern")
+    
+    # Validate task belongs to a project
+    if not task.project_id:
+        raise HTTPException(status_code=400, detail="Task is not associated with any project")
+ 
+    task.status = status
+    await db.commit()
+    await db.refresh(task)
+    
+    logger.info(f"Task ID {task.id} status updated to '{status}' for intern ID {intern_id} by user ID {user.id}")
+    return task
+    

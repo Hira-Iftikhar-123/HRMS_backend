@@ -50,7 +50,7 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "testuser@example.com",
+									"value": "admin@example.com",
 									"type": "text"
 								},
 								{
@@ -61,12 +61,12 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8001/login",
+							"raw": "http://localhost:8000/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8001",
+							"port": "8000",
 							"path": [
 								"login"
 							]
@@ -382,7 +382,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"admin@example.com\",\r\n  \"full_name\": \"Admin User\",\r\n  \"phone\": \"1234567890\",\r\n  \"password\": \"12345\",\r\n  \"role_name\": \"admin\"\r\n}",
+							"raw": "{\r\n  \"email\": \"PM@example.com\",\r\n  \"full_name\": \"Project Manager 1\",\r\n  \"phone\": \"1234567892\",\r\n  \"password\": \"12345\",\r\n  \"role_name\": \"PM\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1005,6 +1005,301 @@
 								"departments",
 								"hr_by_department",
 								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Week 5",
+			"item": [
+				{
+					"name": "/update_task_status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NDk1ODQwOH0.g8ES66Hc146c2oyLwYLJLuzVo8PdcJn37lLXQNBCNIM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/task/update_task_status?intern_id=16&task_id=1&status=rejected",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"task",
+								"update_task_status"
+							],
+							"query": [
+								{
+									"key": "intern_id",
+									"value": "16"
+								},
+								{
+									"key": "task_id",
+									"value": "1"
+								},
+								{
+									"key": "status",
+									"value": "rejected"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/feedback_submission",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJQTUBleGFtcGxlLmNvbSIsInJvbGUiOiJQTSIsImV4cCI6MTc1NDk1NjE4M30.ZMdZUapo-VFj_C3LHYASAyjDM1TkY8Y7QeH91ogiKLk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "project_id",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "intern_id",
+									"value": "16",
+									"type": "text"
+								},
+								{
+									"key": "pm_id",
+									"value": "17",
+									"type": "text"
+								},
+								{
+									"key": "feedback_text",
+									"value": "Good effort for the project",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/feedback/submit_feedback",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"feedback",
+								"submit_feedback"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/create-notifcation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NTEzNTQxN30.gD0joaPL2K1TWUgh448EBRTQnYfimdAtJrfx-8iV4Xk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user_id\": 10,\r\n  \"title\": \"System Update\",\r\n  \"message\": \"Your profile has been updated successfully\",\r\n  \"notification_type\": \"system\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/notifications/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"notifications",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get/notification",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NTEzNTQxN30.gD0joaPL2K1TWUgh448EBRTQnYfimdAtJrfx-8iV4Xk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/notifications/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"notifications",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-notifications",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NTEzNTQxN30.gD0joaPL2K1TWUgh448EBRTQnYfimdAtJrfx-8iV4Xk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"is_read\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/notifications/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"notifications",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-notification",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NTEzNTQxN30.gD0joaPL2K1TWUgh448EBRTQnYfimdAtJrfx-8iV4Xk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/notifications/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"notifications",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "generate-report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NTEzNTQxN30.gD0joaPL2K1TWUgh448EBRTQnYfimdAtJrfx-8iV4Xk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/report/generate_report?project_id=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"report",
+								"generate_report"
+							],
+							"query": [
+								{
+									"key": "project_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "generate-project-report(filters)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NTEzNTQxN30.gD0joaPL2K1TWUgh448EBRTQnYfimdAtJrfx-8iV4Xk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/report/generate_report?/report/generate_report?project_id=1&department_id=1&evaluator_id=17",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"report",
+								"generate_report"
+							],
+							"query": [
+								{
+									"key": "/report/generate_report?project_id",
+									"value": "1"
+								},
+								{
+									"key": "department_id",
+									"value": "1"
+								},
+								{
+									"key": "evaluator_id",
+									"value": "17"
+								}
 							]
 						}
 					},

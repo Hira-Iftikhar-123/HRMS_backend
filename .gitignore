@@ -55,6 +55,9 @@ tmp/
 temp/
 *.csv
 
+# Uploaded files
+uploads/
+
 __pycache__/
 .env
 venv/

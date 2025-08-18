@@ -9,7 +9,7 @@ class Task(Base):
     project_id = Column(Integer, ForeignKey("projects.id"))
     title = Column(String)
     description = Column(String)
-    status = Column(String)
+    status = Column(String) # pending, approved, rejected
     assigned_to_id = Column(Integer, ForeignKey("users.id"))
     progress = Column(Integer, default=0)  # Progress percentage (0-100)
     due_date = Column(DateTime(timezone=True), nullable=True) 

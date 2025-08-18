@@ -9,6 +9,8 @@ import app.models.department
 import app.models.project_assignment  
 import app.models.evaluation  
 import app.models.hr_department_map  
+import app.models.feedback  
+import app.models.notification  
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 import asyncio
