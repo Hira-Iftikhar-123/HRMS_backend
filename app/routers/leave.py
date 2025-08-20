@@ -7,6 +7,7 @@ from app.core.auth import get_current_user, require_roles
 from app.models.leave import Leave
 from sqlalchemy.orm import selectinload
 from app.core.notifications import send_firebase_notification
+from app.models.admin_log import AdminLog
 from sqlalchemy.future import select
 from app.schemas.leave import LeaveResponse, LeaveUpdate
 import logging
@@ -42,6 +43,18 @@ async def update_leave_status(
     await db.commit()
     await db.refresh(leave)
     logger.info(f"Leave ID {leave.id} status updated to '{leave.status}' by {user.email}")
+
+    # Write admin log (non-blocking on failure)
+    try:
+        db.add(AdminLog(
+            type="leave_status",
+            message=f"Leave status updated to {leave.status}",
+            actor_user_id=user.id if hasattr(user, 'id') else None,
+            meta={"leave_id": leave.id, "user_id": leave.user_id, "status": leave.status}
+        ))
+        await db.commit()
+    except Exception:
+        logger.exception("Failed to write admin log for leave status update")
 
     # Notify the user on approval
     try:

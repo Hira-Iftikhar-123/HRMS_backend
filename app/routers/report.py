@@ -6,6 +6,7 @@ from typing import List, Optional
 from datetime import datetime, date
 from app.core.database import get_db
 from app.core.auth import get_current_user, require_roles
+from app.models.admin_log import AdminLog
 from app.models.user import User
 from app.models.feedback import Feedback
 from app.models.project import Project
@@ -140,4 +141,17 @@ async def generate_performance_report(
     )
     
     logger.info(f"Performance report generated for project {project_info.name} by user {current_user.email}")
+    try:
+        db.add(AdminLog(
+            type="report",
+            message="Performance report generated",
+            actor_user_id=current_user.id,
+            meta={
+                "project_id": project_info.id,
+                "project_name": project_info.name,
+            }
+        ))
+        await db.commit()
+    except Exception:
+        pass
     return report

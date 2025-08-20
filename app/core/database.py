@@ -1,5 +1,4 @@
-from app.core.base import Base
-import app.models.user  
+from app.core.base import Base 
 import app.models.role  
 import app.models.attendance  
 import app.models.project  
@@ -11,13 +10,14 @@ import app.models.evaluation
 import app.models.hr_department_map  
 import app.models.feedback  
 import app.models.notification  
+import app.models.admin_log  
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 import asyncio
 import logging
 import os
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(override=False)
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 

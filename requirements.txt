@@ -5,6 +5,7 @@ asyncpg
 python-jose[cryptography]
 passlib[bcrypt]
 python-dotenv
+python-decouple
 psycopg2-binary
 httpx
 firebase-admin

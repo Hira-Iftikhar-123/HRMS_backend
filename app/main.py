@@ -13,6 +13,7 @@ from app.routers.evaluation import router as evaluation_router
 from app.routers.feedback import router as feedback_router
 from app.routers.notification import router as notification_router
 from app.routers.report import router as report_router
+from app.routers.admin import router as admin_router
 
 app = FastAPI()
 
@@ -30,7 +31,8 @@ app.include_router(evaluation_router)
 app.include_router(feedback_router)
 app.include_router(notification_router)
 app.include_router(report_router)
+app.include_router(admin_router)
 
 @app.get("/")
 def read_root():
-    return {"message": "HRMS Backend is running successfully at localhost:8000"}
+    return {"message": "HRMS Backend is running successfully at localhost:8000"} 

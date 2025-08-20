@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
-from typing import Optional
+from typing import Optional, List
 import os
 import shutil
 from datetime import datetime
@@ -13,6 +13,7 @@ from app.models.project import Project
 from app.models.user import User
 from app.models.project_assignment import ProjectAssignment
 from app.schemas.feedback import FeedbackResponse
+from app.models.admin_log import AdminLog
 from app.core.notifications import create_system_notification
 import logging
 
@@ -21,6 +22,9 @@ router = APIRouter(prefix="/feedback", tags=["Feedback"])
 
 UPLOAD_DIR = "uploads/feedback"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+def _is_pm_or_manager(user: User) -> bool:
+    return user.role and user.role.name and user.role.name.lower() in {"pm", "manager", "admin"}
 
 @router.post("/submit_feedback", response_model=FeedbackResponse)
 async def submit_feedback(
@@ -115,5 +119,42 @@ async def submit_feedback(
         # Don't fail the feedback submission if notification fails
     
     logger.info(f"Feedback submitted for intern ID {intern_id} on project ID {project_id} by PM ID {pm_id}")
+    # Write admin log
+    try:
+        db.add(AdminLog(
+            type="feedback",
+            message="Feedback submitted",
+            actor_user_id=current_user.id,
+            meta={
+                "project_id": project_id,
+                "intern_id": intern_id,
+                "pm_id": pm_id,
+                "rating": rating
+            }
+        ))
+        await db.commit()
+    except Exception:
+        logger.exception("Failed to write admin log for feedback submission")
     
     return feedback
+
+@router.get("/history/{intern_id}", response_model=List[FeedbackResponse])
+async def get_feedback_history(
+    intern_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not _is_pm_or_manager(current_user):
+        raise HTTPException(status_code=403, detail="Only PM/Manager/Admin can view feedback history")
+    
+    result = await db.execute(
+        select(Feedback).where(Feedback.intern_id == intern_id).order_by(Feedback.created_at.desc())
+    )
+    if current_user.id == intern_id:
+        result = await db.execute(
+            select(Feedback).where(Feedback.intern_id == intern_id).order_by(Feedback.created_at.desc())
+        )
+    else:
+        raise HTTPException(status_code=403, detail="Only PM/Manager/Admin can see intern's feedback history")
+    feedbacks = result.scalars().all()
+    return feedbacks
