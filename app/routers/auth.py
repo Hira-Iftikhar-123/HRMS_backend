@@ -6,6 +6,7 @@ from app.core.database import SessionLocal
 from app.models.user import User
 import app.schemas.token as token_schemas
 from app.core.auth import verify_password, create_access_token
+from app.core.security import rate_limit_auth
 from sqlalchemy.orm import selectinload
 
 router = APIRouter(
@@ -17,6 +18,7 @@ async def get_db():
         yield session
 
 @router.post("/login", response_model=token_schemas.Token)
+@rate_limit_auth()
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)):
     result = await db.execute(
         select(User).options(selectinload(User.role)).where(User.email == form_data.username)

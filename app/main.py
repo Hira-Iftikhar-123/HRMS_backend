@@ -14,9 +14,33 @@ from app.routers.feedback import router as feedback_router
 from app.routers.notification import router as notification_router
 from app.routers.report import router as report_router
 from app.routers.admin import router as admin_router
+from app.core.security import setup_security_middleware
+import os
 
-app = FastAPI()
+# Environment-based configuration
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
+# Create FastAPI app with security settings
+if ENVIRONMENT == "production":
+    app = FastAPI(
+        title="HRMS Backend",
+        description="Secure HR Management System Backend",
+        version="1.0.0",
+        docs_url=None,  # Disable docs in production
+        redoc_url=None,  # Disable redoc in production
+        openapi_url=None  # Disable openapi in production
+    )
+else:
+    app = FastAPI(
+        title="HRMS Backend",
+        description="Secure HR Management System Backend",
+        version="1.0.0"
+    )
+
+# Setup security middleware
+setup_security_middleware(app)
+
+# Include routers
 app.include_router(user_router)
 app.include_router(role_router)
 app.include_router(project_router)
@@ -35,4 +59,8 @@ app.include_router(admin_router)
 
 @app.get("/")
 def read_root():
-    return {"message": "HRMS Backend is running successfully at localhost:8000"} 
+    return {"message": "HRMS Backend is running successfully", "environment": ENVIRONMENT}
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy", "environment": ENVIRONMENT} 
