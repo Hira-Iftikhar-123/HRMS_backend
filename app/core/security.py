@@ -35,21 +35,22 @@ class APIKeyMiddleware(BaseHTTPMiddleware):
         self.api_key = api_key or os.getenv("API_KEY")
     
     async def dispatch(self, request: Request, call_next):
-        # Skip API key check for public endpoints
-        public_paths = ["/", "/docs", "/redoc", "/openapi.json", "/login", "/register"]
+        public_paths = ["/", "/docs", "/redoc", "/openapi.json", "/login", "/register", "/health"]
         
         if request.url.path in public_paths:
             return await call_next(request)
-        
-        # Check for API key in headers
         api_key_header = request.headers.get("X-API-Key")
-        if not api_key_header or api_key_header != self.api_key:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid or missing API key"
-            )
+        if api_key_header and api_key_header == self.api_key:
+            return await call_next(request)
         
-        return await call_next(request)
+        auth_header = request.headers.get("Authorization")
+        if auth_header and auth_header.startswith("Bearer "):
+            return await call_next(request)
+        
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or missing API key or JWT token"
+        )
 
 def setup_security_middleware(app: FastAPI):
     """Setup all security middleware for the FastAPI application"""

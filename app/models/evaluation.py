@@ -21,10 +21,11 @@ class Evaluation(Base):
     criteria = Column(JSON, nullable=True)  # arbitrary scores dict
     signature = Column(Text, nullable=True)  # base64 or URL
 
+    # Lock status for evaluations
+    lock_status = Column(Boolean, nullable=False, server_default="0")
+
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     evaluator = relationship("User", foreign_keys=[evaluator_id])
     intern = relationship("User", foreign_keys=[intern_id])
     project = relationship("Project")
-
-
