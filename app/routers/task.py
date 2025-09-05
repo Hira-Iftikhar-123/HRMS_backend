@@ -13,11 +13,10 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/task", tags=["Task"])
 
 class TaskProgressUpdate(BaseModel):
-    progress: int  # Progress percentage (0-100)
+    progress: int
 
 @router.get("/debug-user")
 async def debug_user_info(db: AsyncSession = Depends(get_db), user=Depends(get_current_user)):
-    """Debug endpoint to check user role information"""
     return {
         "user_id": user.id,
         "email": user.email,
@@ -32,7 +31,6 @@ async def debug_user_info(db: AsyncSession = Depends(get_db), user=Depends(get_c
 
 @router.post("/assign-task", response_model=TaskResponse)
 async def assign_task(task_in: TaskCreate, db: AsyncSession = Depends(get_db), user=Depends(get_current_user)):
-    """Assign task - check role manually for debugging"""
     if not user.role or user.role.name not in ["Admin", "Manager"]:
         raise HTTPException(
             status_code=403, 
@@ -68,8 +66,6 @@ async def update_task_status(task_id: int, update: TaskUpdate, db: AsyncSession 
 
 @router.patch("/task-progress/{task_id}", response_model=TaskResponse)
 async def update_task_progress(task_id: int, progress_update: TaskProgressUpdate, db: AsyncSession = Depends(get_db), user=Depends(get_current_user)):
-    """Update task progress percentage (0-100)"""
-    # Validate progress value
     if not 0 <= progress_update.progress <= 100:
         raise HTTPException(status_code=400, detail="Progress must be between 0 and 100")
     
@@ -78,7 +74,6 @@ async def update_task_progress(task_id: int, progress_update: TaskProgressUpdate
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     
-    # Only assigned user or admin/manager can update progress
     if user.id != task.assigned_to_id and user.role.name not in ["Admin", "Manager"]:
         raise HTTPException(status_code=403, detail="Not authorized to update this task's progress")
     
@@ -95,7 +90,6 @@ async def update_task_status(intern_id: int, task_id: int, status: str, db: Asyn
     if status not in valid_statuses:
         raise HTTPException(status_code=400, detail=f"Invalid status. Must be one of: {', '.join(valid_statuses)}")
     
-    # Check if user has permission (Admin, Manager, or the assigned intern) 
     if user.role.name not in ["Admin", "Manager"] and user.id != intern_id:
         raise HTTPException(status_code=403, detail="Not authorized to update this task status")
     
@@ -107,7 +101,6 @@ async def update_task_status(intern_id: int, task_id: int, status: str, db: Asyn
     if task.assigned_to_id != intern_id:
         raise HTTPException(status_code=400, detail="Task is not assigned to the specified intern")
     
-    # Validate task belongs to a project
     if not task.project_id:
         raise HTTPException(status_code=400, detail="Task is not associated with any project")
  

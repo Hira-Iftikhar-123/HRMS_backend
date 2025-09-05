@@ -21,7 +21,6 @@ async def get_user_notifications(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Get all notifications for the current user"""
     result = await db.execute(
         select(Notification)
         .where(Notification.user_id == current_user.id)
@@ -36,8 +35,6 @@ async def create_notification(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Create a new notification (system-generated)"""
-    # Only allow system notifications or notifications for the current user
     if notification.user_id != current_user.id and current_user.role.name not in ["Admin", "Manager"]:
         raise HTTPException(status_code=403, detail="Can only create notifications for yourself")
     
@@ -56,7 +53,6 @@ async def update_notification(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Mark notification as read/unread"""
     result = await db.execute(
         select(Notification).where(Notification.id == notification_id)
     )
@@ -65,11 +61,9 @@ async def update_notification(
     if not db_notification:
         raise HTTPException(status_code=404, detail="Notification not found")
     
-    # Only the notification owner can update it
     if db_notification.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to update this notification")
     
-    # Update only provided fields
     update_data = notification_update.dict(exclude_unset=True)
     for field, value in update_data.items():
         setattr(db_notification, field, value)
@@ -86,7 +80,6 @@ async def delete_notification(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Delete a notification"""
     result = await db.execute(
         select(Notification).where(Notification.id == notification_id)
     )
@@ -95,7 +88,6 @@ async def delete_notification(
     if not db_notification:
         raise HTTPException(status_code=404, detail="Notification not found")
     
-    # Only the notification owner can delete it
     if db_notification.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to delete this notification")
     

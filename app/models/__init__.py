@@ -10,3 +10,4 @@ from .task import Task
 from .feedback import Feedback
 from .notification import Notification
 from .admin_log import AdminLog
+from .sync_queue import SyncQueue

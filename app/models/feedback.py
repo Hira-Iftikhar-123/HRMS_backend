@@ -12,11 +12,10 @@ class Feedback(Base):
     pm_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     feedback_text = Column(Text, nullable=False)
     rating = Column(Integer, nullable=False)  # 1-5 rating
-    file_path = Column(String, nullable=True)  # file upload path(if any)
+    file_path = Column(String, nullable=True)  
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
-    # Relationships
     project = relationship("Project", backref="feedbacks")
     intern = relationship("User", foreign_keys=[intern_id], backref="received_feedbacks")
     pm = relationship("User", foreign_keys=[pm_id], backref="given_feedbacks")

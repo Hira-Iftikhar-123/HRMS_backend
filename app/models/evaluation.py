@@ -12,16 +12,12 @@ class Evaluation(Base):
     evaluator_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     intern_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
-    # For quick/star evaluations
     stars = Column(Integer, nullable=True)
     comment = Column(Text, nullable=True)
-
-    # Final evaluation fields
     is_final = Column(Boolean, nullable=False, server_default="0")
-    criteria = Column(JSON, nullable=True)  # arbitrary scores dict
-    signature = Column(Text, nullable=True)  # base64 or URL
+    criteria = Column(JSON, nullable=True)  
+    signature = Column(Text, nullable=True)  
 
-    # Lock status for evaluations
     lock_status = Column(Boolean, nullable=False, server_default="0")
 
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)

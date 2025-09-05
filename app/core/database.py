@@ -11,6 +11,7 @@ import app.models.hr_department_map
 import app.models.feedback  
 import app.models.notification  
 import app.models.admin_log  
+import app.models.sync_queue  
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 import asyncio

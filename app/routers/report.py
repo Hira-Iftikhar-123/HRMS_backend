@@ -1,18 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy import func, and_
+from sqlalchemy import func
 from typing import List, Optional
 from datetime import datetime, date
 from app.core.database import get_db
-from app.core.auth import get_current_user, require_roles
+from app.core.auth import require_roles
 from app.models.admin_log import AdminLog
 from app.models.user import User
 from app.models.feedback import Feedback
 from app.models.project import Project
 from app.models.project_assignment import ProjectAssignment
-from app.models.department import Department
-from app.models.hr_department_map import HRDepartmentMap
 from pydantic import BaseModel
 import logging
 
@@ -45,12 +43,6 @@ async def generate_performance_report(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(require_roles(["Admin", "Manager", "HR", "PM"]))
 ):
-    """
-    Generate performance report with intern-wise average ratings for projects.
-    Supports filtering by project, department, evaluator, and date range.
-    """
-    
-    # Build base query for feedback with joins
     query = (
         select(
             Feedback.intern_id,
@@ -66,7 +58,6 @@ async def generate_performance_report(
         .group_by(Feedback.intern_id, Feedback.project_id, User.full_name, User.email, Project.name)
     )
     
-    # Apply filters
     if project_id:
         query = query.where(Feedback.project_id == project_id)
     
@@ -79,9 +70,7 @@ async def generate_performance_report(
     if end_date:
         query = query.where(Feedback.created_at <= end_date)
     
-    # Department filter (if specified)
     if department_id:
-        # Get users in the specified department
         dept_users_query = (
             select(User.id)
             .join(ProjectAssignment, User.id == ProjectAssignment.intern_id)
@@ -90,14 +79,12 @@ async def generate_performance_report(
         )
         query = query.where(Feedback.intern_id.in_(dept_users_query))
     
-    # Execute query
     result = await db.execute(query)
     feedback_data = result.all()
     
     if not feedback_data:
         raise HTTPException(status_code=404, detail="No feedback data found for the specified criteria")
     
-    # Process results
     intern_performances = []
     total_ratings = 0
     total_feedbacks = 0
@@ -116,10 +103,8 @@ async def generate_performance_report(
         total_ratings += row.average_rating * row.total_feedbacks
         total_feedbacks += row.total_feedbacks
     
-    # Calculate overall project average
     average_project_rating = total_ratings / total_feedbacks if total_feedbacks > 0 else 0
     
-    # Get project info
     project_info = None
     if project_id:
         result = await db.execute(select(Project).where(Project.id == project_id))
@@ -127,10 +112,8 @@ async def generate_performance_report(
         if not project_info:
             raise HTTPException(status_code=404, detail="Project not found")
     else:
-        # Use first project from results
         project_info = Project(id=feedback_data[0].project_id, name=feedback_data[0].project_name)
     
-    # Create response
     report = PerformanceReportResponse(
         project_id=project_info.id,
         project_name=project_info.name,

@@ -25,7 +25,6 @@ async def get_admin_logs(
 	if type:
 		query = query.where(AdminLog.type == type)
 
-	# Parse datetimes if provided
 	def _parse(dt_str: Optional[str]) -> Optional[datetime]:
 		if not dt_str:
 			return None
@@ -39,7 +38,6 @@ async def get_admin_logs(
 	if start_dt:
 		query = query.where(AdminLog.created_at >= start_dt)
 	if end_dt:
-		# include the entire second by adding a tiny delta
 		query = query.where(AdminLog.created_at <= end_dt + timedelta(microseconds=1))
 
 	query = query.order_by(AdminLog.created_at.desc())

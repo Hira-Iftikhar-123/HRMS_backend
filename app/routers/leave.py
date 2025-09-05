@@ -44,7 +44,6 @@ async def update_leave_status(
     await db.refresh(leave)
     logger.info(f"Leave ID {leave.id} status updated to '{leave.status}' by {user.email}")
 
-    # Write admin log (non-blocking on failure)
     try:
         db.add(AdminLog(
             type="leave_status",
@@ -56,7 +55,6 @@ async def update_leave_status(
     except Exception:
         logger.exception("Failed to write admin log for leave status update")
 
-    # Notify the user on approval
     try:
         if leave.status.lower() == "approved" and getattr(leave.user, "fcm_token", None):
             await send_firebase_notification(
@@ -65,6 +63,5 @@ async def update_leave_status(
                 body=f"Your leave request (ID {leave.id}) has been approved.",
             )
     except Exception:
-        # Never block the response on notification failure
         logger.exception("Failed to send leave approval notification")
     return leave

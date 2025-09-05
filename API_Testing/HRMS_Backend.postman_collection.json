@@ -1558,6 +1558,268 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Week 8",
+			"item": [
+				{
+					"name": "/evaluation/evaluation_archieve",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NzAzNDgxOX0.aVIqK-hvMySz1Pqu-ul8hs4m_DHZuMei2KOcmRejuiA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/evaluation/evaluation_archive",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"evaluation",
+								"evaluation_archive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/evaluation/evaluation_archive?intern_id=1&date_range=2024-01-01,2024-12-31&verdict=approved",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NzAzNDgxOX0.aVIqK-hvMySz1Pqu-ul8hs4m_DHZuMei2KOcmRejuiA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/evaluation/evaluation_archive?intern_id=16&date_range=2025-08-25,2025-08-25&verdict=Pass",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"evaluation",
+								"evaluation_archive"
+							],
+							"query": [
+								{
+									"key": "intern_id",
+									"value": "16"
+								},
+								{
+									"key": "date_range",
+									"value": "2025-08-25,2025-08-25"
+								},
+								{
+									"key": "verdict",
+									"value": "Pass"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/evaluation/generate_report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NzA5OTQ0OH0.gosAURedwSI3524FhGnjPYaH8TCCwvLE89ggDP-VoQc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/evaluation/generate_report/16",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"evaluation",
+								"generate_report",
+								"16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/sync/offlien_data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NzA5OTQ0OH0.gosAURedwSI3524FhGnjPYaH8TCCwvLE89ggDP-VoQc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"items\": [\r\n    {\r\n      \"operation_type\": \"create\",\r\n      \"table_name\": \"evaluations\",\r\n      \"record_id\": null,\r\n      \"data\": {\r\n        \"evaluator_id\": 10,\r\n        \"intern_id\": 17,\r\n        \"project_id\": 3,\r\n        \"stars\": 4,\r\n        \"comment\": \"Good performance in offline mode\",\r\n        \"is_final\": false,\r\n        \"lock_status\": false\r\n      }\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/sync/offline_data",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"sync",
+								"offline_data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sync/queue_status",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NzA5OTQ0OH0.gosAURedwSI3524FhGnjPYaH8TCCwvLE89ggDP-VoQc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/sync/queue_status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"sync",
+								"queue_status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sync/queue_items?status=pending&limit=6",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NzA5OTQ0OH0.gosAURedwSI3524FhGnjPYaH8TCCwvLE89ggDP-VoQc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/sync/queue_items?status=pending&limit=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"sync",
+								"queue_items"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending"
+								},
+								{
+									"key": "limit",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/sync/clear_completed",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NzA5OTQ0OH0.gosAURedwSI3524FhGnjPYaH8TCCwvLE89ggDP-VoQc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/sync/clear_completed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"sync",
+								"clear_completed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/sync/retry_failed",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGUiOiJBZG1pbiIsImV4cCI6MTc1NzA5OTQ0OH0.gosAURedwSI3524FhGnjPYaH8TCCwvLE89ggDP-VoQc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/sync/retry_failed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"sync",
+								"retry_failed"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [

@@ -12,3 +12,5 @@ firebase-admin
 slowapi
 python-multipart
 gunicorn
+reportlab
+Pillow

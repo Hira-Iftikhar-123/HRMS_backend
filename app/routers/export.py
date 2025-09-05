@@ -21,25 +21,18 @@ async def export_leaves_csv(
     db: AsyncSession = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
-    """Export all leaves data as CSV"""
-
-    # Eager load users for each leave to prevent async lazy load issues
     result = await db.execute(
         select(Leave).options(selectinload(Leave.user))
     )
     leaves = result.scalars().all()
     
-    # Create CSV content
     output = io.StringIO()
     writer = csv.writer(output)
     
-    # Write header
     writer.writerow([
         'Leave ID', 'User ID', 'User Name', 'Start Date', 'End Date', 
         'Status', 'Reason', 'Created At', 'Updated At'
     ])
-    
-    # Write data
     for leave in leaves:
         writer.writerow([
             leave.id,
@@ -55,7 +48,6 @@ async def export_leaves_csv(
     
     output.seek(0)
     
-    # Create response with proper headers for file download
     return StreamingResponse(
         io.BytesIO(output.getvalue().encode('utf-8')),
         media_type="text/csv",
@@ -70,21 +62,16 @@ async def export_users_csv(
     db: AsyncSession = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
-    """Export all users data as CSV"""
-    # Get all users with role information
     result = await db.execute(select(User).options(selectinload(User.role)))
     users = result.scalars().all()
     
-    # Create CSV content
     output = io.StringIO()
     writer = csv.writer(output)
     
-    # Write header
     writer.writerow([
         'User ID', 'Email', 'Full Name', 'Phone', 'Role ID', 'Role Name'
     ])
     
-    # Write data
     for user in users:
         writer.writerow([
             user.id,
@@ -97,7 +84,6 @@ async def export_users_csv(
     
     output.seek(0)
     
-    # Create response with proper headers for file download
     return StreamingResponse(
         io.BytesIO(output.getvalue().encode('utf-8')),
         media_type="text/csv",

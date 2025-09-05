@@ -18,7 +18,6 @@ class TokenUpdate(BaseModel):
 @router.post("/register", response_model=UserResponse)
 async def register_candidate(user_in: UserCreate, db: AsyncSession = Depends(get_db)):
     try:
-        # Find role by name (e.g: candidate, admin, manager, etc.)
         result = await db.execute(select(Role).filter(Role.name == user_in.role_name))
         role = result.scalar_one_or_none()
         if not role:
@@ -36,7 +35,6 @@ async def register_candidate(user_in: UserCreate, db: AsyncSession = Depends(get
         await db.commit()
         await db.refresh(user)
         
-        # Load the role relationship for response
         result = await db.execute(
             select(User).options(selectinload(User.role)).filter(User.id == user.id)
         )
@@ -62,7 +60,6 @@ async def register_candidate(user_in: UserCreate, db: AsyncSession = Depends(get
 @router.post("/add-user", response_model=UserResponse)
 async def add_user(user_in: UserCreate, db: AsyncSession = Depends(get_db), user=Depends(require_roles(["admin"]))):
     try:
-        # Admin can specify role_id (e.g: 1 for admin, 2 for manager, 3 for candidate)
         if not user_in.role_id:
             raise HTTPException(status_code=400, detail="role_id required")
         
@@ -78,7 +75,6 @@ async def add_user(user_in: UserCreate, db: AsyncSession = Depends(get_db), user
         await db.commit()
         await db.refresh(user)
         
-        # Load the role relationship for response
         result = await db.execute(
             select(User).options(selectinload(User.role)).filter(User.id == user.id)
         )

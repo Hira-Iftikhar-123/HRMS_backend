@@ -29,19 +29,16 @@ async def assign_project(
     if not _is_managerial_role(current_user):
         raise HTTPException(status_code=403, detail="Insufficient permissions")
 
-    # Validate intern exists
     result = await db.execute(select(User).where(User.id == payload.intern_id))
     intern = result.scalar_one_or_none()
     if not intern:
         raise HTTPException(status_code=404, detail="Intern not found")
 
-    # Validate project exists
     result = await db.execute(select(Project).where(Project.id == payload.project_id))
     project = result.scalar_one_or_none()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
 
-    # Create assignment (deduplicated by constraint)
     assignment = ProjectAssignment(
         intern_id=payload.intern_id,
         project_id=payload.project_id,
@@ -52,12 +49,9 @@ async def assign_project(
         await db.commit()
     except Exception:
         await db.rollback()
-        # Likely duplicate
         raise HTTPException(status_code=400, detail="Intern already assigned to this project")
 
     await db.refresh(assignment)
-
-    # Notify intern if token available
     if getattr(intern, "fcm_token", None):
         await send_firebase_notification(
             tokens=intern.fcm_token,

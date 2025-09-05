@@ -14,21 +14,20 @@ from app.routers.feedback import router as feedback_router
 from app.routers.notification import router as notification_router
 from app.routers.report import router as report_router
 from app.routers.admin import router as admin_router
+from app.routers.sync import router as sync_router
 from app.core.security import setup_security_middleware
 import os
 
-# Environment-based configuration
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
-# Create FastAPI app with security settings
 if ENVIRONMENT == "production":
     app = FastAPI(
         title="HRMS Backend",
         description="Secure HR Management System Backend",
         version="1.0.0",
-        docs_url=None,  # Disable docs in production
-        redoc_url=None,  # Disable redoc in production
-        openapi_url=None  # Disable openapi in production
+        docs_url=None,  
+        redoc_url=None,  
+        openapi_url=None  
     )
 else:
     app = FastAPI(
@@ -37,10 +36,8 @@ else:
         version="1.0.0"
     )
 
-# Setup security middleware
 setup_security_middleware(app)
 
-# Include routers
 app.include_router(user_router)
 app.include_router(role_router)
 app.include_router(project_router)
@@ -56,6 +53,7 @@ app.include_router(feedback_router)
 app.include_router(notification_router)
 app.include_router(report_router)
 app.include_router(admin_router)
+app.include_router(sync_router)
 
 @app.get("/")
 def read_root():

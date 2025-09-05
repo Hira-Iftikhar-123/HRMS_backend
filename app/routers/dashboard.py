@@ -16,23 +16,15 @@ async def get_ceo_dashboard_metrics(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """
-    Get CEO Dashboard metrics including total projects, tasks, and pending leaves.
-    Only accessible by users with CEO role.
-    """
-    # Check if user has CEO role (role_id 6 is CEO)
     if current_user.role_id != 6:
         raise HTTPException(status_code=403, detail="Access denied. CEO role required.")
     
-    # Get total projects
     result = await db.execute(select(func.count(Project.id)))
     total_projects = result.scalar()
     
-    # Get total tasks
     result = await db.execute(select(func.count(Task.id)))
     total_tasks = result.scalar()
     
-    # Get pending leaves
     result = await db.execute(select(func.count(Leave.id)).where(Leave.status == "pending"))
     pending_leaves = result.scalar()
     
@@ -47,22 +39,15 @@ async def get_task_status_summary(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """
-    Get task status summary for CEO dashboard.
-    Only accessible by users with CEO role.
-    """
-    # Check if user has CEO role (role_id 6 is CEO)
     if current_user.role_id != 6:
         raise HTTPException(status_code=403, detail="Access denied. CEO role required.")
     
-    # Get task status counts
     result = await db.execute(
         select(Task.status, func.count(Task.id).label('count'))
         .group_by(Task.status)
     )
     task_status_counts = result.all()
     
-    # Convert to dictionary format
     status_summary = {}
     for status, count in task_status_counts:
         status_summary[status] = count

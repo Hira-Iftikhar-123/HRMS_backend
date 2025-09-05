@@ -22,7 +22,6 @@ async def get_all_departments(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Get all departments"""
     result = await db.execute(select(Department))
     departments = result.scalars().all()
     return departments
@@ -33,7 +32,6 @@ async def get_department(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Get a specific department by ID"""
     result = await db.execute(select(Department).where(Department.id == department_id))
     department = result.scalar_one_or_none()
     if not department:
@@ -46,8 +44,6 @@ async def create_department(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Create a new department"""
-    # Check if department with same name already exists
     result = await db.execute(select(Department).where(Department.name == department.name))
     existing_department = result.scalar_one_or_none()
     if existing_department:
@@ -66,20 +62,17 @@ async def update_department(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Update a department"""
     result = await db.execute(select(Department).where(Department.id == department_id))
     db_department = result.scalar_one_or_none()
     if not db_department:
         raise HTTPException(status_code=404, detail="Department not found")
     
-    # Check if name is being updated and if it conflicts with existing department
     if department_update.name and department_update.name != db_department.name:
         result = await db.execute(select(Department).where(Department.name == department_update.name))
         existing_department = result.scalar_one_or_none()
         if existing_department:
             raise HTTPException(status_code=400, detail="Department with this name already exists")
     
-    # Update only provided fields
     update_data = department_update.dict(exclude_unset=True)
     for field, value in update_data.items():
         setattr(db_department, field, value)
@@ -94,7 +87,6 @@ async def delete_department(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Delete a department"""
     result = await db.execute(select(Department).where(Department.id == department_id))
     db_department = result.scalar_one_or_none()
     if not db_department:
@@ -111,11 +103,9 @@ async def map_hr_to_department(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    # Only admin can map HRs to departments
     if not (current_user.role and current_user.role.name and current_user.role.name.lower() == "admin"):
         raise HTTPException(status_code=403, detail="Only admin can map HR to department")
 
-    # Validate HR exists and is HR (eager-load role to avoid async lazy-load)
     result = await db.execute(
         select(User).options(selectinload(User.role)).where(User.id == mapping.hr_id)
     )
@@ -123,7 +113,6 @@ async def map_hr_to_department(
     if not hr_user or not hr_user.role or hr_user.role.name.lower() != "hr":
         raise HTTPException(status_code=400, detail="Provided hr_id is not an HR user")
 
-    # Validate department exists
     result = await db.execute(select(Department).where(Department.id == mapping.department_id))
     dept = result.scalar_one_or_none()
     if not dept:
@@ -146,7 +135,6 @@ async def list_hrs_by_department(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    # Any authenticated user can view
     result = await db.execute(
         select(User).join(HRDepartmentMap, HRDepartmentMap.hr_id == User.id)
         .where(HRDepartmentMap.department_id == department_id)
